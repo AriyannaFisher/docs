@@ -2,8 +2,8 @@
 title: Recovering your SSH key passphrase
 intro: 'If you''ve lost your SSH key passphrase, depending on the operating system you use, you may either recover it or you may need to generate a new SSH key passphrase.'
 redirect_from:
-  - /articles/how-do-i-recover-my-passphrase/
-  - /articles/how-do-i-recover-my-ssh-key-passphrase/
+  - /articles/how-do-i-recover-my-passphrase
+  - /articles/how-do-i-recover-my-ssh-key-passphrase
   - /articles/recovering-your-ssh-key-passphrase
   - /github/authenticating-to-github/recovering-your-ssh-key-passphrase
   - /github/authenticating-to-github/troubleshooting-ssh/recovering-your-ssh-key-passphrase
@@ -33,12 +33,12 @@ If you [configured your SSH passphrase with the macOS keychain](/articles/workin
 
 {% windows %}
 
-If you lose your SSH key passphrase, there's no way to recover it. You'll need to [generate a brand new SSH keypair](/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) or [switch to HTTPS cloning](/github/getting-started-with-github/managing-remote-repositories) so you can use your GitHub password instead.
+If you lose your SSH key passphrase, there's no way to recover it. You'll need to [generate a brand new SSH keypair](/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) or [switch to HTTPS cloning](/github/getting-started-with-github/about-remote-repositories#cloning-with-https-urls) so you can use a {% data variables.product.pat_generic %} instead.
 
 {% endwindows %}
 
 {% linux %}
 
-If you lose your SSH key passphrase, there's no way to recover it. You'll need to [generate a brand new SSH keypair](/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) or [switch to HTTPS cloning](/github/getting-started-with-github/about-remote-repositories/#cloning-with-https-urls) so you can use your GitHub password instead.
+If you lose your SSH key passphrase, there's no way to recover it. You'll need to [generate a brand new SSH keypair](/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) or [switch to HTTPS cloning](/github/getting-started-with-github/about-remote-repositories#cloning-with-https-urls) so you can use a {% data variables.product.pat_generic %} instead.
 
 {% endlinux %}

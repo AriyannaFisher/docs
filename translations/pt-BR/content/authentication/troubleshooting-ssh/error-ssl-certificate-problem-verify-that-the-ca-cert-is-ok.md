@@ -7,22 +7,28 @@ redirect_from:
   - /github/authenticating-to-github/troubleshooting-ssh/error-ssl-certificate-problem-verify-that-the-ca-cert-is-ok
 versions:
   fpt: '*'
+  ghec: '*'
 topics:
   - SSH
-shortTitle: Problema no certificado SSL
+shortTitle: SSL certificate problem
+ms.openlocfilehash: 26777edf5b312c8f45c5b1fb211b87648778cf13
+ms.sourcegitcommit: 80842b4e4c500daa051eff0ccd7cde91c2d4bb36
+ms.translationtype: HT
+ms.contentlocale: pt-BR
+ms.lasthandoff: 09/11/2022
+ms.locfileid: '145083547'
 ---
-
 Você receberá a seguinte mensagem de erro:
 
 ```shell
 $ git push -u github.main
-> fatal: 'github.main' não parece um repositório git 
-> fatal: A ponta remote desligou inesperadamente
+> fatal: 'github.main' does not appear to be a git repository
+> fatal: The remote end hung up unexpectedly
 
 $ git pull -u github
-> erro: problema na certificação SSL, verifique se a cert CA está OK. Details:
-> erro:14090086:SSL routines:SSL3_GET_SERVER_CERTIFICATE:falha na verificação do certificado ao acessar https://github.com/tqisjim/google-oauth.git/info/refs
-> fatal: falha na solicitação HTTP
+> error: SSL certificate problem, verify that the CA cert is OK. Details:
+> error:14090086:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate verify failed while accessing https://github.com/tqisjim/google-oauth.git/info/refs
+> fatal: HTTP request failed
 ```
 
 "CA" é a abreviatura de "certificate authority" (autoridade certificada), um grupo terceiro responsável por gerenciar conexões seguras na Web. Esse grupo estabelece "certificados" digitais, que são uma forma de garantir que existem conexões válidas entre duas máquinas (por exemplo, seu computador e o GitHub.com). Sem um certificado, o risco de segurança entre duas máquinas é maior.

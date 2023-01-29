@@ -1,7 +1,9 @@
-{% ifversion fpt %}
-Você pode escolher o método de entrega e a frequência das notificações sobre
-{% data variables.product.prodname_dependabot_alerts %} em repositórios que você está inspecionando ou onde você se assinou notificações para alertas de segurança.
-{% else %}
-Você pode escolher o método de entrega para notificações sobre
-{% ifversion ghes %}Alertas de segurança de {% data variables.product.prodname_dependabot_alerts %}{% else %} em repositórios que você está inspecionando,{% endif %} bem como a frequência na qual as notificações são enviadas para você.
-{% endif %}
+---
+ms.openlocfilehash: f86f510de500452b6eedc962e18e93632697b0a6
+ms.sourcegitcommit: 47bd0e48c7dba1dde49baff60bc1eddc91ab10c5
+ms.translationtype: HT
+ms.contentlocale: pt-BR
+ms.lasthandoff: 09/05/2022
+ms.locfileid: "147062383"
+---
+Você pode escolher o método de entrega e a frequência de notificações dos {% data variables.product.prodname_dependabot_alerts %} nos repositórios que está inspecionando ou que assinou para receber notificações de alertas de segurança.

@@ -1,11 +1,12 @@
 ---
 title: CLI de GitHub
-shortTitle: CLI de GitHub
+shortTitle: GitHub CLI
 intro: '{% data reusables.cli.about-cli %}'
 versions:
   fpt: '*'
   ghes: '*'
   ghae: '*'
+  ghec: '*'
 children:
   - /github-cli
 introLinks:
@@ -17,6 +18,7 @@ featuredLinks:
     - /github-cli/github-cli/creating-github-cli-extensions
     - /github-cli/github-cli/using-github-cli-extensions
     - /actions/guides/using-github-cli-in-workflows
+    - /codespaces/developing-in-codespaces/using-codespaces-with-github-cli
   popular:
     - /github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request
     - /issues/tracking-your-work-with-issues/creating-an-issue
@@ -31,5 +33,11 @@ changelog:
   label: cli
 layout: product-landing
 beta_product: false
+ms.openlocfilehash: baa7f3b173c35a1629a57860f23eef57c88fc2f9
+ms.sourcegitcommit: fb047f9450b41b24afc43d9512a5db2a2b750a2a
+ms.translationtype: HT
+ms.contentlocale: es-ES
+ms.lasthandoff: 09/11/2022
+ms.locfileid: '145069779'
 ---
 

@@ -15,4 +15,3 @@ children:
   - /enforcing-policy-with-pre-receive-hooks
 shortTitle: Set policies
 ---
-

@@ -1,13 +1,13 @@
 /* eslint-disable camelcase */
 import { v4 as uuidv4 } from 'uuid'
 import Cookies from 'js-cookie'
-import getCsrf from './get-csrf'
-import parseUserAgent from './user-agent'
+import { parseUserAgent } from './user-agent'
 
 const COOKIE_NAME = '_docs-events'
 
 const startVisitTime = Date.now()
 
+let initialized = false
 let cookieValue: string | undefined
 let pageEventId: string | undefined
 let maxScrollY = 0
@@ -26,7 +26,7 @@ export function getUserEventsId() {
   if (cookieValue) return cookieValue
   cookieValue = uuidv4()
   Cookies.set(COOKIE_NAME, cookieValue, {
-    secure: true,
+    secure: document.location.protocol !== 'http:',
     sameSite: 'strict',
     expires: 365,
   })
@@ -38,6 +38,7 @@ export enum EventType {
   exit = 'exit',
   link = 'link',
   search = 'search',
+  searchResult = 'searchResult',
   navigate = 'navigate',
   survey = 'survey',
   experiment = 'experiment',
@@ -58,6 +59,11 @@ type SendEventProps = {
   link_url?: string
   search_query?: string
   search_context?: string
+  search_result_query?: string
+  search_result_index?: number
+  search_result_total?: number
+  search_result_rank?: number
+  search_result_url?: string
   navigate_label?: string
   survey_token?: string // Honeypot, doesn't exist in schema
   survey_vote?: boolean
@@ -78,8 +84,6 @@ function getMetaContent(name: string) {
 
 export function sendEvent({ type, version = '1.0.0', ...props }: SendEventProps) {
   const body = {
-    _csrf: getCsrf(),
-
     type,
 
     context: {
@@ -123,10 +127,14 @@ export function sendEvent({ type, version = '1.0.0', ...props }: SendEventProps)
     ...props,
   }
 
-  // Only send the beacon if the feature is not disabled in the user's browser
-  if (navigator?.sendBeacon) {
-    const blob = new Blob([JSON.stringify(body)], { type: 'application/json' })
-    navigator.sendBeacon('/events', blob)
+  const blob = new Blob([JSON.stringify(body)], { type: 'application/json' })
+  const endpoint = '/api/events'
+  try {
+    // Only send the beacon if the feature is not disabled in the user's browser
+    // Even if the function exists, it can still throw an error from the call being blocked
+    navigator?.sendBeacon(endpoint, blob)
+  } catch {
+    console.warn(`sendBeacon to '${endpoint}' failed.`)
   }
 
   return body
@@ -235,6 +243,15 @@ function initClipboardEvent() {
   })
 }
 
+function initCopyButtonEvent() {
+  document.documentElement.addEventListener('click', (evt) => {
+    const target = evt.target as HTMLElement
+    const button = target.closest('.js-btn-copy') as HTMLButtonElement
+    if (!button) return
+    sendEvent({ type: EventType.navigate, navigate_label: 'copy icon button' })
+  })
+}
+
 function initLinkEvent() {
   document.documentElement.addEventListener('click', (evt) => {
     const target = evt.target as HTMLElement
@@ -253,14 +270,17 @@ function initPrintEvent() {
   })
 }
 
-export default function initializeEvents() {
+export function initializeEvents() {
+  if (initialized) return
+  initialized = true
   initPageAndExitEvent() // must come first
   initLinkEvent()
   initClipboardEvent()
+  initCopyButtonEvent()
   initPrintEvent()
   // survey event in ./survey.js
   // experiment event in ./experiment.js
-  // search event in ./search.js
+  // search and search_result event in ./search.js
   // redirect event in middleware/record-redirect.js
   // preference event in ./display-tool-specific-content.js
 }

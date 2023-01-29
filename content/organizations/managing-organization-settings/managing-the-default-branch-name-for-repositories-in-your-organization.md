@@ -1,12 +1,12 @@
 ---
 title: Managing the default branch name for repositories in your organization
-intro: 'You can set the default branch name for repositories that members create in your organization on {% data variables.product.product_location %}.'
+intro: 'You can set the default branch name for repositories that members create in your organization on {% data variables.location.product_location %}.'
 redirect_from:
   - /github/setting-up-and-managing-organizations-and-teams/managing-the-default-branch-name-for-repositories-in-your-organization
 permissions: Organization owners can manage the default branch name for new repositories in the organization.
 versions:
   fpt: '*'
-  ghes: '>=3.0'
+  ghes: '*'
   ghae: '*'
   ghec: '*'
 topics:

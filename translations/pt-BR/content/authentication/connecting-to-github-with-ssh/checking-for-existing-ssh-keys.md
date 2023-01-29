@@ -1,6 +1,6 @@
 ---
-title: Verificar se há chaves SSH
-intro: 'Antes de gerar uma chave SSH, você pode verificar se há outras chaves SSH.'
+title: Checking for existing SSH keys
+intro: 'Before you generate an SSH key, you can check to see if you have any existing SSH keys.'
 redirect_from:
   - /articles/checking-for-existing-ssh-keys
   - /github/authenticating-to-github/checking-for-existing-ssh-keys
@@ -9,31 +9,45 @@ versions:
   fpt: '*'
   ghes: '*'
   ghae: '*'
+  ghec: '*'
 topics:
   - SSH
-shortTitle: Verificar se há chave SSH existente
+shortTitle: Check for existing SSH key
 ---
+
+## About SSH keys
+
+You can use SSH to perform Git operations in repositories on {% ifversion fpt or ghec or ghes %}{% data variables.location.product_location %}{% elsif ghae %}{% data variables.product.product_name %}{% endif %}. For more information, see "[About SSH](/authentication/connecting-to-github-with-ssh/about-ssh)."
+
+If you have an existing SSH key, you can use the key to authenticate Git operations over SSH.
+
+## Checking for existing SSH keys
+
+Before you generate a new SSH key, you should check your local machine for existing keys.
 
 {% data reusables.ssh.key-type-support %}
 
 {% data reusables.command_line.open_the_multi_os_terminal %}
-2. Digite `ls -al ~/.ssh` para verificar se as chaves SSH existentes estão presentes:
+2. Enter `ls -al ~/.ssh` to see if existing SSH keys are present.
 
   ```shell
   $ ls -al ~/.ssh
   # Lists the files in your .ssh directory, if they exist
   ```
-3. Verifique a listagem do diretório para verificar se você já tem uma chave SSH pública. Por padrão, os nomes de arquivo das chaves públicas são um dos seguintes:
+
+3. Check the directory listing to see if you already have a public SSH key. By default, the {% ifversion ghae %}filename of a supported public key for {% data variables.product.product_name %} is *id_rsa.pub*.{% else %}filenames of supported public keys for {% data variables.product.product_name %} are one of the following.
     - *id_rsa.pub*
     - *id_ecdsa.pub*
-    - *id_ed25519.pub*
+    - *id_ed25519.pub*{% endif %}
 
-Se você não tiver um par de chaves pública e privada ou não deseja usar algum que esteja disponível para conectar-se a {% data variables.product.product_name %}, [gere uma nova chave SSH](/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+  {% tip %}
 
-Se você vir uma lista de chaves públicas e privadas (por exemplo, *id_rsa. ub* e *id_rsa*) que você gostaria de usar para conectar-se a {% data variables.product.product_name %}, você poderá [adicionar sua chave SSH ao ssh-agent-](/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/#adding-your-ssh-key-to-the-ssh-agent).
+  **Tip**: If you receive an error that *~/.ssh* doesn't exist, you do not have an existing SSH key pair in the default location. You can create a new SSH key pair in the next step.
 
-{% tip %}
+  {% endtip %}
 
-**Dica:** se você receber um erro informando que *~/.ssh* não existe, não se preocupe! Nós o criaremos quando [gerarmos uma chave SSH](/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+4. Either generate a new SSH key or upload an existing key.
+    - If you don't have a supported public and private key pair, or don't wish to use any that are available, generate a new SSH key.
+    - If you see an existing public and private key pair listed (for example, *id_rsa.pub* and *id_rsa*) that you would like to use to connect to {% data variables.product.product_name %}, you can add the key to the ssh-agent.
 
-{% endtip %}
+      For more information about generation of a new SSH key or addition of an existing key to the ssh-agent, see "[Generating a new SSH key and adding it to the ssh-agent](/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)."

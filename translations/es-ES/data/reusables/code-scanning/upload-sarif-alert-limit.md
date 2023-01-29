@@ -1,8 +1,16 @@
+---
+ms.openlocfilehash: 0b7740ddd22bccfe9899f98ac44af4d4b94b4ed4
+ms.sourcegitcommit: fcf3546b7cc208155fb8acdf68b81be28afc3d2d
+ms.translationtype: HT
+ms.contentlocale: es-ES
+ms.lasthandoff: 09/10/2022
+ms.locfileid: "145115497"
+---
 {% note %}
 
-**Notas:**
-- SARIF upload supports a maximum of {% ifversion ghae-next or fpt or ghes > 3.0 %}5000{% else %}1000{% endif %} results per upload. Cualquier resultado que sobrepase este límite se ignorará. Si una herramienta genera demasiados resultados, debes actualizar la configuración para enfocarte en los resultados de las reglas o consultas más importantes.
+**Notas:** 
+- La carga de SARIF admite un máximo de 5000 resultados por carga. Los resultados que superen este límite se omiten. Si una herramienta genera demasiados resultados, debe actualizar la configuración para centrarse en los resultados de las reglas o consultas más importantes.
 
- - For each upload, SARIF upload supports a maximum size of 10 MB for the `gzip`-compressed SARIF file. Any uploads over this limit will be rejected. If your SARIF file is too large because it contains too many results, you should update the configuration to focus on results for the most important rules or queries.
+ - Para cada carga, la carga de SARIF admite un tamaño máximo de 10 MB para el archivo SARIF comprimido con `gzip`. Se rechazarán las cargas que superen este límite. Si el archivo SARIF es demasiado grande porque contiene demasiados resultados, debe actualizar la configuración para centrarse en los resultados de las reglas o consultas más importantes.
 
 {% endnote %}

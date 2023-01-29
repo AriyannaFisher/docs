@@ -9,14 +9,20 @@ versions:
   fpt: '*'
   ghes: '*'
   ghae: '*'
+  ghec: '*'
 topics:
   - SSH
-shortTitle: Permiso denegado (publickey)
+shortTitle: Permission denied (publickey)
+ms.openlocfilehash: fdf69ae9777127851e1e0a1e85b5907ebd4a3557
+ms.sourcegitcommit: 47bd0e48c7dba1dde49baff60bc1eddc91ab10c5
+ms.translationtype: HT
+ms.contentlocale: es-ES
+ms.lasthandoff: 09/05/2022
+ms.locfileid: '145091743'
 ---
+## ¿Se debe usar el comando `sudo` o los privilegios elevados con Git?
 
-## ¿El comando `sudo` se debe usar con Git?
-
-No deberías estar usando el comando `sudo` con Git. Si tienes una *muy buena razón* para usar `sudo`, asegúrate de estar usándolo con todos los comandos (probablemente es mejor que uses `su` para obtener un shell como raíz en este punto). Si [generas claves SSH](/articles/generating-an-ssh-key) sin `sudo` y luego intentas usar un comando como `sudo git push`, no estarás usando las mismas claves que generaste.
+No debería utilizar el comando `sudo` con Git, ni los privilegios elevados, tales como los permisos de administrador. Si tiene un *motivo muy fundado*, debe usar `sudo` y, después. asegurarse de que lo está usando con cada comando (probablemente sea mejor usar `su` para obtener un shell como raíz en ese momento). Si [genera claves SSH](/articles/generating-an-ssh-key) sin `sudo` e intenta usar un comando como `sudo git push`, no estará usando las mismas claves que ha generado.
 
 ## Verifica si estás conectado al servidor correcto
 
@@ -33,7 +39,7 @@ $ ssh -vT git@{% data variables.command_line.codeblock %}
 > debug1: Connecting to {% data variables.command_line.codeblock %} port 22.
 ```
 
-La conexión debe establecerse en el puerto 22{% ifversion fpt %}, a menos que estés anulando parámetros para usar [SSH a través de HTTPS](/articles/using-ssh-over-the-https-port){% endif %}.
+La conexión debe realizarse en el puerto 22{% ifversion fpt or ghec %}, a menos que se invalide la configuración para usar [SSH a través de HTTPS](/articles/using-ssh-over-the-https-port){% endif %}.
 
 ## Siempre usa el usuario "git"
 
@@ -43,7 +49,7 @@ Todas las conexiones, incluidas las de URL remotas, deben hacerse como el usuari
 $ ssh -T <em>GITHUB-USERNAME</em>@{% data variables.command_line.codeblock %}
 > Permission denied (publickey).
 ```
-Si tu conexión ha fallado y estás usando una URL remota con tu nombre de usuario de {% data variables.product.product_name %}, puedes [cambiar tu URL remota para usar el usuario "git"](/github/getting-started-with-github/managing-remote-repositories).
+Si se ha producido un error en la conexión y usa una dirección URL remota con el nombre de usuario de {% data variables.product.product_name %}, puede [cambiar la dirección URL remota para usar el usuario "git"](/github/getting-started-with-github/managing-remote-repositories).
 
 Para verificar tu conexión, debes escribir:
 
@@ -57,31 +63,14 @@ $ ssh -T git@{% data variables.command_line.codeblock %}
 {% mac %}
 
 {% data reusables.command_line.open_the_multi_os_terminal %}
-2. Verifica si tienes una llave privada generada y cargada en SSH. {% ifversion ghes < 3.0 %}Si estàs utilizando OpenSSH 6.7 o superior:
-  ```shell
-  # start the ssh-agent in the background
-  $ eval "$(ssh-agent -s)"
-  > Agent pid 59566
-  $ ssh-add -l
-  > 2048 <em>a0:dd:42:3c:5a:9d:e4:2a:21:52:4e:78:07:6e:c8:4d</em> /Users/<em>you</em>/.ssh/id_rsa (RSA)
-  ```
-
-  Si estás usando OpenSSH 6.8 o una versión más reciente:
-  ```shell
-  # start the ssh-agent in the background
-  $ eval "$(ssh-agent -s)"
-  > Agent pid 59566
-  $ ssh-add -l -E md5
-  > 2048 <em>MD5:a0:dd:42:3c:5a:9d:e4:2a:21:52:4e:78:07:6e:c8:4d</em> /Users/<em>you</em>/.ssh/id_rsa (RSA)
-  ```
-  {% else %}
+2. Verifica si tienes una llave privada generada y cargada en SSH. 
   ```shell
   # start the ssh-agent in the background
   $ eval "$(ssh-agent -s)"
   > Agent pid 59566
   $ ssh-add -l -E sha256
   > 2048 <em>SHA256:274ffWxgaxq/tSINAykStUL7XWyRNcRTlcST1Ei7gBQ</em> /Users/<em>USERNAME</em>/.ssh/id_rsa (RSA)
-  ```{% endif %}
+  ```
 
 {% endmac %}
 
@@ -92,65 +81,37 @@ $ ssh -T git@{% data variables.command_line.codeblock %}
 1. {% data reusables.desktop.windows_git_bash_turn_on_ssh_agent %}
 
   {% data reusables.desktop.windows_git_for_windows_turn_on_ssh_agent %}
-2. Verifica si tienes una llave privada generada y cargada en SSH. {% ifversion ghes < 3.0 %}If you're using OpenSSH 6.7 or older:
-  ```shell
-  $ ssh-add -l
-  > 2048 <em>a0:dd:42:3c:5a:9d:e4:2a:21:52:4e:78:07:6e:c8:4d</em> /Users/<em>you</em>/.ssh/id_rsa (RSA)
-  ```
-
-  Si estás usando OpenSSH 6.8 o una versión más reciente:
-  ```shell
-  $ ssh-add -l -E md5
-  > 2048 <em>MD5:a0:dd:42:3c:5a:9d:e4:2a:21:52:4e:78:07:6e:c8:4d</em> /Users/<em>you</em>/.ssh/id_rsa (RSA)
-  ```
-  {% else %}
+2. Verifica si tienes una llave privada generada y cargada en SSH. 
   ```shell
   $ ssh-add -l -E sha256
   > 2048 <em>SHA256:274ffWxgaxq/tSINAykStUL7XWyRNcRTlcST1Ei7gBQ</em> /Users/<em>USERNAME</em>/.ssh/id_rsa (RSA)
-  ```{% endif %}
+  ```
 
 {% endwindows %}
 
 {% linux %}
 
 {% data reusables.command_line.open_the_multi_os_terminal %}
-2. Verifica si tienes una llave privada generada y cargada en SSH. {% ifversion ghes < 3.0 %}If you're using OpenSSH 6.7 or older:
-  ```shell
-  # start the ssh-agent in the background
-  $ eval "$(ssh-agent -s)"
-  > Agent pid 59566
-  $ ssh-add -l
-  > 2048 <em>a0:dd:42:3c:5a:9d:e4:2a:21:52:4e:78:07:6e:c8:4d</em> /Users/<em>you</em>/.ssh/id_rsa (RSA)
-  ```
-
-  Si estás usando OpenSSH 6.8 o una versión más reciente:
-  ```shell
-  # start the ssh-agent in the background
-  $ eval "$(ssh-agent -s)"
-  > Agent pid 59566
-  $ ssh-add -l -E md5
-  > 2048 <em>MD5:a0:dd:42:3c:5a:9d:e4:2a:21:52:4e:78:07:6e:c8:4d</em> /Users/<em>you</em>/.ssh/id_rsa (RSA)
-  ```
-  {% else %}
+2. Verifica si tienes una llave privada generada y cargada en SSH. 
   ```shell
   $ ssh-add -l -E sha256
   > 2048 <em>SHA256:274ffWxgaxq/tSINAykStUL7XWyRNcRTlcST1Ei7gBQ</em> /Users/<em>USERNAME</em>/.ssh/id_rsa (RSA)
-  ```{% endif %}
-
+  ```
+  
 
 {% endlinux %}
 
-The `ssh-add` command *should* print out a long string of numbers and letters. If it does not print anything, you will need to [generate a new SSH key](/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) and associate it with {% data variables.product.product_name %}.
+El comando `ssh-add` *debe* imprimir una cadena larga de números y letras. Si no imprime nada, deberá [generar una nueva clave SSH](/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) y asociarla a {% data variables.product.product_name %}.
 
 {% tip %}
 
-**Tip**: On most systems the default private keys (`~/.ssh/id_rsa` and `~/.ssh/identity`) are automatically added to the SSH authentication agent. You shouldn't need to run `ssh-add path/to/key` unless you override the file name when you generate a key.
+**Sugerencia**: En la mayoría de los sistemas, las claves privadas predeterminadas (`~/.ssh/id_rsa` y `~/.ssh/identity`) se agregan automáticamente al agente de autenticación SSH. No debe ejecutarse `ssh-add path/to/key`, a menos que invalide el nombre de archivo al generar una clave.
 
 {% endtip %}
 
-### Getting more details
+### Más detalles
 
-You can also check that the key is being used by trying to connect to `git@{% data variables.command_line.backticks %}`:
+También puede comprobar que la clave se está usando. Para ello, intente conectarse a `git@{% data variables.command_line.backticks %}`:
 
 ```shell
 $ ssh -vT git@{% data variables.command_line.codeblock %}
@@ -192,27 +153,15 @@ Debes indicarle tu llave privada a {% data variables.product.product_name %} par
   $ eval "$(ssh-agent -s)"
   > Agent pid 59566
   ```
-3. Busca tu huella digital de llave pública y anótala. {% ifversion ghes < 3.0 %}Si estàs utilizando OpenSSH 6.7 o superior:
-  ```shell
-  $ ssh-add -l
-  > 2048 <em>a0:dd:42:3c:5a:9d:e4:2a:21:52:4e:78:07:6e:c8:4d</em> /Users/<em>USERNAME</em>/.ssh/id_rsa (RSA)
-  ```
-
-  Si estás usando OpenSSH 6.8 o una versión más reciente:
-  ```shell
-  $ ssh-add -l -E md5
-  > 2048 <em>MD5:a0:dd:42:3c:5a:9d:e4:2a:21:52:4e:78:07:6e:c8:4d</em> /Users/<em>USERNAME</em>/.ssh/id_rsa (RSA)
-  ```
-  {% else %}
+3. Busca tu huella digital de llave pública y anótala. 
   ```shell
   $ ssh-add -l -E sha256
   > 2048 <em>SHA256:274ffWxgaxq/tSINAykStUL7XWyRNcRTlcST1Ei7gBQ</em> /Users/<em>USERNAME</em>/.ssh/id_rsa (RSA)
-  ```{% endif %}
+  ```
 
-{% data reusables.user_settings.access_settings %}
-{% data reusables.user_settings.ssh %}
-6. Compare the list of SSH keys with the output from the `ssh-add` command.
-![SSH key listing in {% data variables.product.product_name %}](/assets/images/help/settings/ssh_key_listing.png)
+{% data reusables.user-settings.access_settings %} {% data reusables.user-settings.ssh %}
+6. Compare la lista de claves SSH con la salida del comando `ssh-add`.
+![Listado de claves SSH en {% data variables.product.product_name %}](/assets/images/help/settings/ssh_key_listing.png)
 
 {% endmac %}
 
@@ -224,27 +173,15 @@ Debes indicarle tu llave privada a {% data variables.product.product_name %} par
   $ ssh-agent -s
   > Agent pid 59566
   ```
-3. Busca tu huella digital de llave pública y anótala. {% ifversion ghes < 3.0 %}Si estàs utilizando OpenSSH 6.7 o superior:
-  ```shell
-  $ ssh-add -l
-  > 2048 <em>a0:dd:42:3c:5a:9d:e4:2a:21:52:4e:78:07:6e:c8:4d</em> /Users/<em>USERNAME</em>/.ssh/id_rsa (RSA)
-  ```
-
-  Si estás usando OpenSSH 6.8 o una versión más reciente:
-  ```shell
-  $ ssh-add -l -E md5
-  > 2048 <em>MD5:a0:dd:42:3c:5a:9d:e4:2a:21:52:4e:78:07:6e:c8:4d</em> /Users/<em>USERNAME</em>/.ssh/id_rsa (RSA)
-  ```
-  {% else %}
+3. Busca tu huella digital de llave pública y anótala. 
   ```shell
   $ ssh-add -l -E sha256
   > 2048 <em>SHA256:274ffWxgaxq/tSINAykStUL7XWyRNcRTlcST1Ei7gBQ</em> /Users/<em>USERNAME</em>/.ssh/id_rsa (RSA)
-  ```{% endif %}
+  ```
 
-{% data reusables.user_settings.access_settings %}
-{% data reusables.user_settings.ssh %}
-6. Compare the list of SSH keys with the output from the `ssh-add` command.
-![SSH key listing in {% data variables.product.product_name %}](/assets/images/help/settings/ssh_key_listing.png)
+{% data reusables.user-settings.access_settings %} {% data reusables.user-settings.ssh %}
+6. Compare la lista de claves SSH con la salida del comando `ssh-add`.
+![Listado de claves SSH en {% data variables.product.product_name %}](/assets/images/help/settings/ssh_key_listing.png)
 
 {% endwindows %}
 
@@ -268,16 +205,16 @@ Debes indicarle tu llave privada a {% data variables.product.product_name %} par
   > 2048 <em>MD5:a0:dd:42:3c:5a:9d:e4:2a:21:52:4e:78:07:6e:c8:4d</em> /Users/<em>USERNAME</em>/.ssh/id_rsa (RSA)
   ```
 
-{% data reusables.user_settings.access_settings %}
-{% data reusables.user_settings.ssh %}
-6. Compara la lista de claves SSH con el resultado que arroja el comando `ssh-add`. ![Lista de claves SSH en {% data variables.product.product_name %}](/assets/images/help/settings/ssh_key_listing.png)
+{% data reusables.user-settings.access_settings %} {% data reusables.user-settings.ssh %}
+6. Compare la lista de claves SSH con la salida del comando `ssh-add`.
+![Listado de claves SSH en {% data variables.product.product_name %}](/assets/images/help/settings/ssh_key_listing.png)
 
 {% endlinux %}
 
-Si no ves tu llave pública en {% data variables.product.product_name %}, será necesario que [agregues tu clave SSH a {% data variables.product.product_name %}](/articles/adding-a-new-ssh-key-to-your-github-account) para asociarla con tu computadora.
+Si no ve la clave pública en {% data variables.product.product_name %}, deberá [agregar la clave SSH a {% data variables.product.product_name %}](/articles/adding-a-new-ssh-key-to-your-github-account) para asociarla con el equipo.
 
 {% warning %}
 
-**Advertencia**: Si ves una clave SSH que no te resulta familiar en {% data variables.product.product_name %}, elimínala de inmediato y contáctate con {% data variables.contact.contact_support %} para recibir más ayuda. Una llave pública no identificada puede indicar un posible problema de seguridad. Para obtener más información, consulta "[Revisar tus claves SSH](/articles/reviewing-your-ssh-keys)".
+**Advertencia**: Si ve una clave SSH que no conoce bien en {% data variables.product.product_name %}, elimínela de inmediato y póngase en contacto con {% data variables.contact.contact_support %} para obtener más ayuda. Una clave pública no identificada puede indicar un posible problema de seguridad. Para más información, vea "[Revisión de las claves SSH](/articles/reviewing-your-ssh-keys)".
 
 {% endwarning %}

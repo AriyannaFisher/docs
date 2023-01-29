@@ -6,16 +6,22 @@ redirect_from:
 versions:
   fpt: '*'
   ghes: '>=3.3'
-  ghae: issue-4651
+  ghae: '*'
+  ghec: '*'
 topics:
   - Repositories
+ms.openlocfilehash: 2f7869e9218679c3c18c3182b15835bcd24e134d
+ms.sourcegitcommit: 76b840f45ba85fb79a7f0c1eb43bc663b3eadf2b
+ms.translationtype: HT
+ms.contentlocale: es-ES
+ms.lasthandoff: 09/12/2022
+ms.locfileid: '145193806'
 ---
-
 ## Acerca de los archivos de CITATION
 
-Puedes agregar un archivo de `CITATION.cff` a la raíz de un repositorio para que otros sepan cómo te gustaría que citaran tu trabajo. El formato de archivo de cita es texto simple con información de cita legible para humanos y máquinas.
+Puede agregar un archivo `CITATION.cff` a la raíz de un repositorio para que otros usuarios sepan cómo le gustaría que citaran su trabajo. El formato de archivo de cita es texto simple con información de cita legible para humanos y máquinas.
 
-Ejemplo de archivo de `CITATION.cff`:
+Archivo `CITATION.cff` de ejemplo:
 
 ```
 cff-version: 1.2.0
@@ -34,7 +40,7 @@ date-released: 2017-12-18
 url: "https://github.com/github/linguist"
 ```
 
-El mensaje de cita de GitHub en tu repositorio te mostrará el contenido de ejemplo de un `CITATION.cff` en estos formatos:
+El mensaje de cita de GitHub en el repositorio mostrará el contenido de `CITATION.cff` de ejemplo en estos formatos:
 
 **APA**
 
@@ -58,25 +64,35 @@ Lisa, M., & Bot, H. (2017). My Research Software (Version 2.0.4) [Computer softw
 ```
 {% endraw %}
 
-Note the example above produces a _software_ citation (i.e., `@software` type in BibTeX rather than `@article`).
+Tenga en cuenta que en el ejemplo anterior se genera una cita de _software_ (es decir, tipo `@software` en BibTeX en lugar de `@article`).
 
-Para obtener más información, consulta el sitio web de [Formatos de Archivos de Citas](https://citation-file-format.github.io/).
+Para más información, vea el sitio web [Citation File Format](https://citation-file-format.github.io/).
 
-Cuando agregas un archivo de `CITATION.cff` a la rama predeterminada de tu repositorio, este se enlaza automáticamente desde la página de llegada del repositorio. Esto hace fácil que otros usuarios citen tu proyecto de software, utilizando la información que proporcionaste.
+Al agregar un archivo `CITATION.cff` a la rama predeterminada del repositorio, se enlaza automáticamente desde la página de aterrizaje del repositorio. Esto hace fácil que otros usuarios citen tu proyecto de software, utilizando la información que proporcionaste.
 
 ![Enlaze de cita en la página de inicio de un repositorio](/assets/images/help/repository/citation-link.png)
 
 ## Citar algo que no sea software
 
-If you would prefer the {% data variables.product.prodname_dotcom %} citation information to link to another resource such as a research article, then you can use the `preferred-citation` override in CFF with the following types.
+Si prefiere que la información de cita de {% data variables.product.prodname_dotcom %} se vincule a otro recurso como un artículo de investigación, puede utilizar la invalidación de `preferred-citation` en CFF con los siguientes tipos.
 
-| Resource         | Type               |
-| ---------------- | ------------------ |
-| Research article | `article`          |
-| Conference paper | `conference-paper` |
-| Book             | `book`             |
+| Resource | Tipo CFF | Tipo BibTeX | Anotación APA |
+|----------|----------|-------------|----------------|
+| Artículo de revista | `article` | `@article` | |
+| Book | `book` | `@book` | |
+| Folleto (lligado pero no publicado) | `pamphlet` | `@booklet` | |
+| Arículo de conferencia/revista | `conference-paper` | `@inproceedings` | [Artículo de conferencia] |
+| Memorias de una conferencia | `conference`, `proceedings` | `@proceedings` | |
+| Conjunto de datos | `data`, `database` | `@misc` | [Conjunto de datos] |
+| Artículo de revista | `magazine-article` | `@article` | |
+| Manual | `manual` | `@manual` | |
+| Misceláneo/genérico/otro | `generic`, cualquier otro tipo de CFF | `@misc` | |
+| Artículo de periódico | `newspaper-article` | `@article` | |
+| Software |  `software`, `software-code`, `software-container`, `software-executable`, `software-virtual-machine` | `@software` | [Software de cómputo] |
+| Reporte/reporte técnico | `report` | `@techreport` | |
+| Publicación anulada | `unpublished` | `@unpublished` | |
 
-Extended CITATION.cff file describing the software, but linking to a research article as the preferred citation:
+Archivo de CITATION.cff extendido que describe el software, pero vincula a un artículo de investigación como la cita preferida:
 
 ```
 cff-version: 1.2.0
@@ -113,7 +129,7 @@ preferred-citation:
   year: 2021
 ```
 
-El archivo `CITATION.cff` anterior producirá los siguientes resultados en el mensaje de cita de GitHub:
+El archivo `CITATION.cff` anterior generará los resultados siguientes en el mensaje de cita de GitHub:
 
 **APA**
 
@@ -139,15 +155,15 @@ Lisa, M., & Bot, H. (2021). My awesome research software. Journal Title, 1(1), 1
 ```
 {% endraw %}
 
-## Citing a dataset
+## Citar un conjunto de datos
 
-If your repository contains a dataset, you can set `type: dataset` in your `CITATION.cff` file to produce a data citation string output in the {% data variables.product.prodname_dotcom %} citation prompt.
+Si el repositorio contiene un conjunto de datos, puede establecer `type: dataset` en el nivel superior del archivo `CITATION.cff` para generar una salida de cadena de cita de datos en el mensaje de cita de {% data variables.product.prodname_dotcom %}.
 
 ## Otros archivos de cita
 
 La característica de cita de GitHub también detectará una cantidad pequeña de archivos adicionales que a menudo se utilizan en las comunidades y proyectos para describir cómo quieren que se cite su trabajo.
 
-GitHub enlazará estos archivos en el mensaje de _Citar este repositorio_, pero no intentará analizarlos en otros formatos de cita.
+GitHub vinculará estos archivos en el mensaje de _Citar este repositorio_, pero no intentará analizarlos en otros formatos de cita.
 
 ```
 # Note these are case-insensitive and must be in the root of the repository
@@ -158,7 +174,7 @@ CITATIONS.bib
 CITATION.md
 CITATIONS.md
 
-# CITATION files for R packages are typically found at inst/CITATION 
+# CITATION files for R packages are typically found at inst/CITATION
 inst/CITATION
 ```
 
@@ -166,4 +182,4 @@ inst/CITATION
 
 Actualmente tenemos compatibilidad con formatos de archivo en APA y BibTex.
 
-¡Estás buscando formatos de cita adicionales? GitHub utiliza una librería de Ruby para analizar los archivos de `CITATION.cff`. Puedes solicitar formatos adicionales en el repositorio [ruby-cff](https://github.com/citation-file-format/ruby-cff) o proporcionarlos tú mismo como contribución.
+¡Estás buscando formatos de cita adicionales? GitHub usa una biblioteca de Ruby para analizar los archivos `CITATION.cff`. Puede solicitar formatos adicionales en el repositorio [ruby-cff](https://github.com/citation-file-format/ruby-cff) o contribuir personalmente.

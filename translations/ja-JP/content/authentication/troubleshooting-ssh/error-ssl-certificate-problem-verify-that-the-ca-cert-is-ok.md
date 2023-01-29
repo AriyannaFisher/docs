@@ -7,11 +7,17 @@ redirect_from:
   - /github/authenticating-to-github/troubleshooting-ssh/error-ssl-certificate-problem-verify-that-the-ca-cert-is-ok
 versions:
   fpt: '*'
+  ghec: '*'
 topics:
   - SSH
 shortTitle: SSL certificate problem
+ms.openlocfilehash: 26777edf5b312c8f45c5b1fb211b87648778cf13
+ms.sourcegitcommit: 80842b4e4c500daa051eff0ccd7cde91c2d4bb36
+ms.translationtype: HT
+ms.contentlocale: ja-JP
+ms.lasthandoff: 09/11/2022
+ms.locfileid: '145088193'
 ---
-
 以下のようなエラーが表示されます:
 
 ```shell
